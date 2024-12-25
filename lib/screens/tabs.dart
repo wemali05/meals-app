@@ -18,15 +18,17 @@ class _TabsScreenState extends State<TabsScreen> {
   var _selectedPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
 
-  void selectScreen(String identifier) {
-      Navigator.of(context).pop();
+  void _setScreen(String identifier) async {
+    Navigator.of(context).pop();
     if (identifier == 'filters') {
-      Navigator.of(context).push(
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
           builder: (ctx) => const FiltersScreen(),
         ),
       );
-    } 
+
+      print(result);
+    }
   }
 
   void _showInfoMessage(String message) {
@@ -80,7 +82,7 @@ class _TabsScreenState extends State<TabsScreen> {
         title: Text(activeScreenTitle),
       ),
       drawer: MainDrawer(
-        onSelectScreen: selectScreen,
+        onSelectScreen: _setScreen,
       ),
       body: activeScreen,
       bottomNavigationBar: BottomNavigationBar(
