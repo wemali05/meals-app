@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/screens/categories.dart';
+import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
@@ -18,16 +19,23 @@ class _TabsScreenState extends State<TabsScreen> {
   final List<Meal> _favoriteMeals = [];
 
   void selectScreen(String identifier) {
-    if(identifier == 'filters') {
-
-    } else {
       Navigator.of(context).pop();
-    }
+    if (identifier == 'filters') {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (ctx) => const FiltersScreen(),
+        ),
+      );
+    } 
   }
 
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message),),);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   void _toggleMealFavoriteStatus(Meal meal) {
@@ -35,7 +43,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
     if (isExisting) {
       setState(() {
-         _favoriteMeals.remove(meal);
+        _favoriteMeals.remove(meal);
       });
       _showInfoMessage('Meal is no longer a favoreite');
     } else {
@@ -71,7 +79,9 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(activeScreenTitle),
       ),
-      drawer: MainDrawer(onSelectScreen: selectScreen,),
+      drawer: MainDrawer(
+        onSelectScreen: selectScreen,
+      ),
       body: activeScreen,
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectScreen,
